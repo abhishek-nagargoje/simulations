@@ -28,9 +28,8 @@
 //      notes, hold, team settings...) now say they are not available.
 //   5. Wording: no training/simulation/practice terminology; "Simulate" is
 //      "Preview", "Simulation Run" is "Validation Run".
-//   6. Branding: the SAP logo imitation and the SAP GUI splash image are
-//      replaced by an original mark and background. Textual references to SAP
-//      functionality (transaction codes, SAP table names) remain.
+//   6. Branding: the original SAP logo from the supplied file is kept; the
+//      SAP GUI splash image is replaced by a background.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -320,12 +319,9 @@ patch('data overview',
 patch('more menu', "['Practice Tasks',practice],['Training Data Overview',dataInfo]", "['Work Queue',workQueue],['Data Overview',dataInfo],['Reload Data',reloadData]");
 
 // ---------------------------------------------------------------------------
-// 6. Branding: product name with a neutral icon and background instead of SAP's
-//    logo and splash image (no approved SAP logo asset has been supplied)
+// 6. Branding: the original SAP logo from the supplied file is kept; only the
+//    external splash image is replaced by a background
 // ---------------------------------------------------------------------------
-patch('logo',
-  /const LOGO=h=>`<svg height="\$\{h\}" viewBox="0 0 96 48" aria-label="SAP">[\s\S]*?<\/svg>`;/,
-  'const LOGO=h=>`<svg height="${h}" viewBox="0 0 104 32" role="img" aria-label="SAP ERP"><rect x="1" y="4" width="24" height="24" rx="6" fill="#fff" fill-opacity=".16" stroke="#fff" stroke-opacity=".7"/><rect x="7" y="10" width="5" height="5" rx="1" fill="#fff"/><rect x="14" y="10" width="5" height="5" rx="1" fill="#fff"/><rect x="7" y="17" width="5" height="5" rx="1" fill="#fff"/><rect x="14" y="17" width="5" height="5" rx="1" fill="#fff"/><text x="33" y="22" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="16" fill="#fff">SAP ERP</text></svg>`;');
 patch('home background', 'style="background-image:url(${HERO})"', '');
 patch('hero css', '#hero{position:sticky;top:0;height:calc(100vh - 170px);min-height:320px;background:#6aa7d8 center/cover;border-radius:2px}',
   '#hero{position:sticky;top:0;height:calc(100vh - 170px);min-height:320px;border-radius:2px;background:radial-gradient(120% 90% at 85% 10%,#cfe1f3 0,transparent 55%),linear-gradient(160deg,#eaf2fa 0%,#b9d3ec 55%,#86aed6 100%)}');

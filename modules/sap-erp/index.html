@@ -230,7 +230,7 @@ money:'M8 1v14 M11 4H7a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4H5',scan:'M2 5V2h3 M11 2h3v3
 sw:'M2 5h10 M9 2l3 3-3 3 M14 11H4 M7 8l-3 3 3 3',tree:'M3 2v12 M3 5h4 M3 11h4 M8 3h6v4H8z M8 9h6v4H8z',hdr:'M2 2h12v12H2z M2 5h12 M5 8h6 M5 11h4',collapse:'M2 2h12v12H2z M5 9l3-3 3 3',layout:'M2 2h12v12H2z M2 6h12 M6 6v8',flag:'M3 15V2 M3 2h9l-2 3 2 3H3',exit:'M10 3h3v10h-3 M7 5 4 8l3 3 M4 8h7',
 calc:'M3 1h10v14H3z M5 3h6v3H5z M5 8h1 M8 8h1 M11 8h0 M5 11h1 M8 11h1',key:'M5 7a3 3 0 1 0 0 2 M7 8h7 M12 8v3 M10 8v2',hist:'M2 8a6 6 0 1 0 2-4.5 M2 2v3h3 M8 5v3l2 2'};
 const ic=(n,c)=>`<svg class="i ${c||''}" viewBox="0 0 16 16"><path d="${IP[n]||IP.doc}"/></svg>`;
-const LOGO=h=>`<svg height="${h}" viewBox="0 0 104 32" role="img" aria-label="SAP ERP"><rect x="1" y="4" width="24" height="24" rx="6" fill="#fff" fill-opacity=".16" stroke="#fff" stroke-opacity=".7"/><rect x="7" y="10" width="5" height="5" rx="1" fill="#fff"/><rect x="14" y="10" width="5" height="5" rx="1" fill="#fff"/><rect x="7" y="17" width="5" height="5" rx="1" fill="#fff"/><rect x="14" y="17" width="5" height="5" rx="1" fill="#fff"/><text x="33" y="22" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="16" fill="#fff">SAP ERP</text></svg>`;
+const LOGO=h=>`<svg height="${h}" viewBox="0 0 96 48" aria-label="SAP"><defs><linearGradient id="lg${h}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00b8f1"/><stop offset="1" stop-color="#1e5fb4"/></linearGradient></defs><path d="M0 0H96L48 48H0Z" fill="url(#lg${h})"/><text x="6" y="35" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="31" fill="#fff" textLength="62">SAP</text></svg>`;
 /* ===================== shell ===================== */
 let STK=[],TC='',DLG=[],MS={};
 const USER='ERPUSER01';

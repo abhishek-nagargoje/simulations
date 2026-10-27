@@ -16,8 +16,9 @@ describe('HR Management module', () => {
     expect(hrms).not.toMatch(/\bEH\b|\bPH\b/);
     expect(hrms).not.toContain('crypto.subtle.digest');
   });
-  it('carries only the neutral product name', () => {
-    expect(hrms).not.toMatch(/darwin/i);
+  it('keeps its original product branding', () => {
+    expect(hrms).toContain('letter-spacing:-.5px">darwinbox</b>');
+    expect(hrms).toContain('title="Home">d</span>');
     expect(hrms).toContain('<title>HR Management</title>');
     expect(hrms).not.toMatch(/HR Remedy/i);
   });
@@ -50,9 +51,9 @@ describe('SAP ERP module', () => {
     expect(sap).toContain("fetch(API+'/commit'");
     expect(sap).toContain('requestId:b.id');
   });
-  it('does not imitate the SAP logo or claim a live SAP connection', () => {
-    expect(sap).not.toMatch(/aria-label="SAP"/);
-    expect(sap).toContain('aria-label="SAP ERP"');
+  it('uses the original SAP logo from the supplied file and claims no live SAP connection', () => {
+    const original = /const LOGO=h=>`<svg[^`]*`;/.exec(readFileSync(join(process.cwd(), 'modules', 'sap-erp', 'source', 'SAP.html'), 'utf8'))![0];
+    expect(sap).toContain(original);
     expect(sap).not.toMatch(/HR Remedy/i);
     expect(sap).not.toMatch(/sent to SAP|SAP inbox|SAP system/i);
   });

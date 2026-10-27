@@ -33,7 +33,7 @@ async function serve(page: Page, errors: string[]) {
 async function openSim(page: Page, classroom: string) {
   await page.goto(`${ORIGIN}/host?c=${classroom}`);
   const frame = page.frameLocator('#f');
-  await expect(frame.locator('#top')).toContainText('HR Management');
+  await expect(frame.locator('#top')).toContainText('darwinbox');
   return frame;
 }
 
@@ -44,7 +44,8 @@ test.describe('HR Management module', () => {
     const sim = await openSim(page, 'class-a');
     await expect(sim.locator('#login, #lf, #pw, #em')).toHaveCount(0);
     await expect(sim.locator('#main')).toContainText('My Access');
-    await expect(sim.locator('body')).not.toContainText(/darwin/i);
+    // Original branding is kept: product name and assistant name.
+    await expect(sim.locator('body')).toContainText('Chat with Darwin');
     const keys = await page.frames()[1].evaluate(() => Object.keys(localStorage).sort());
     expect(keys).toEqual(['hrms_v1:__index', 'hrms_v1:class-a']);
     expect(errors).toEqual([]);

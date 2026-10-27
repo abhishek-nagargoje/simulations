@@ -1,24 +1,40 @@
 /**
- * Neutral application icons. These are generic glyphs, not vendor logos: no
- * approved SAP or Zoho logo assets have been supplied. To use an approved
- * original asset, place it in /public and render it here for that slug.
+ * Application icons for the launcher, taken from each application's original
+ * branding: the SAP logo from the supplied SAP.html (modules/sap-erp/source)
+ * and the HR application's "d" mark. Unknown applications get a neutral glyph.
  */
+function SapLogo({ size }: { size: number }) {
+  return (
+    // Decorative here: the card heading next to it already names the application.
+    <svg height={size} viewBox="0 0 96 48" aria-hidden="true" focusable="false" className="app-icon app-logo">
+      <defs>
+        <linearGradient id="sap-logo-gradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#00b8f1" />
+          <stop offset="1" stopColor="#1e5fb4" />
+        </linearGradient>
+      </defs>
+      <path d="M0 0H96L48 48H0Z" fill="url(#sap-logo-gradient)" />
+      <text x="6" y="35" fontFamily="Arial Black,Arial,sans-serif" fontWeight="900" fontSize="31" fill="#fff" textLength="62">
+        SAP
+      </text>
+    </svg>
+  );
+}
+
 const GLYPHS: Record<string, React.ReactNode> = {
-  // Ledger: rows of a document table.
-  'sap-erp': <path d="M10 11h12M10 16h12M10 21h8" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" />,
-  // Person.
+  // The HR application's own "d" mark (modules/hr-remedy-hrms).
   'hr-remedy-hrms': (
-    <>
-      <circle cx="16" cy="12.5" r="3.6" fill="#fff" />
-      <path d="M9.5 23c.8-3.6 3.3-5.5 6.5-5.5s5.7 1.9 6.5 5.5" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" fill="none" />
-    </>
+    <text x="16" y="23" textAnchor="middle" fontFamily="Arial,sans-serif" fontWeight="800" fontSize="20" fill="#fff">
+      d
+    </text>
   ),
 };
 
 export function AppIcon({ slug, size = 40 }: { slug: string; size?: number }) {
+  if (slug === 'sap-erp') return <SapLogo size={size} />;
   return (
     <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" focusable="false" className="app-icon">
-      <rect width="32" height="32" rx="8" fill="#334155" />
+      <rect width="32" height="32" rx="8" fill={slug === 'hr-remedy-hrms' ? '#0b4fcf' : '#334155'} />
       {GLYPHS[slug] ?? <rect x="10" y="10" width="12" height="12" rx="2" fill="#fff" />}
     </svg>
   );

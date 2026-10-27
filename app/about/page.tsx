@@ -15,7 +15,11 @@ export default function AboutPage() {
           <p>
             The SAP ERP application follows SAP transaction conventions. It is an independent application; it is not
             provided by, operated by, affiliated with or endorsed by SAP SE, and it is not connected to any SAP system.
-            Postings are stored only in this service’s own database. SAP is a trademark of SAP SE.
+            Postings are stored only in this service’s own database. SAP and the SAP logo are trademarks of SAP SE.
+          </p>
+          <p>
+            The HR Management application follows the Darwinbox interface. It is an independent application; it is not
+            provided by, operated by, affiliated with or endorsed by Darwinbox. Darwinbox is a trademark of its owner.
           </p>
           <p>
             Business partners, employees, documents and bank details in the applications are sample records. They do not

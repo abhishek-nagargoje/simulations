@@ -15,7 +15,7 @@
 //      documented eviction policy (see the bridge script below).
 //   3. Replaces the artifact-only download API with standard browser downloads.
 //   4. Turns "Sign out" into "Exit classroom" (handled by the platform host).
-//   5. Rebrands third-party product names to "HR Management" / "HR Assistant".
+//   5. Keeps the original product branding (logo mark, product and assistant names).
 //   6. Wording: no demo/training terminology; "Exit" posts access:exit to the host.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -74,11 +74,6 @@ patch(
 );
 
 // 5. Branding --------------------------------------------------------------
-patch('logo mark css', 'font:800 30px Arial;width:46px', 'font:800 16px Arial;width:46px');
-patch('logo mark', 'title="Home">d</span>', 'title="Home">HR</span>');
-patch('assistant intro', 'I am Darwin', 'I am the HR Assistant');
-patch('product name', /darwinbox/i, 'HR Management', 4);
-patch('assistant name', /Darwin/, 'HR Assistant', 9);
 
 // Bridge: boots the app (the platform already authenticated the student) ---
 const bridge = `<script>/* HR Remedy training platform bridge */
