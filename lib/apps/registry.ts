@@ -21,6 +21,8 @@ export type AppModule = {
 export const APP_MODULES: Record<string, AppModule> = {
   'hr-remedy-hrms': { slug: 'hr-remedy-hrms', type: 'html', entry: 'hr-remedy-hrms/index.html', storage: 'browser' },
   'sap-erp': { slug: 'sap-erp', type: 'html', entry: 'sap-erp/index.html', storage: 'database' },
+  'zoho-crm': { slug: 'zoho-crm', type: 'html', entry: 'zoho-crm/index.html', storage: 'browser' },
+  'amazon-s4hana': { slug: 'amazon-s4hana', type: 'html', entry: 'amazon-s4hana/index.html', storage: 'browser' },
 };
 
 const MODULES_DIR = join(process.cwd(), 'modules');
@@ -40,7 +42,7 @@ export function resolveApp(slug: string): AppModule | null {
 export function renderApp(mod: AppModule, accessId: string): string {
   const html = readFileSync(join(MODULES_DIR, mod.entry), 'utf8');
   const access = { id: accessId, app: mod.slug, api: `/api/access/${accessId}/erp` };
-  // __CLASSROOM__ namespaces the HRMS module's browser storage per access session.
+  // __CLASSROOM__ namespaces the browser-storage modules' data per access session.
   const boot = `<script>window.__ACCESS__=${JSON.stringify(access)};window.__CLASSROOM__=${JSON.stringify(accessId)};</script>`;
   return /<head[^>]*>/i.test(html) ? html.replace(/<head[^>]*>/i, (m) => `${m}${boot}`) : boot + html;
 }

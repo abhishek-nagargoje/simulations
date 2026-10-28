@@ -16,6 +16,8 @@
     "setup:admin": "node --env-file=.env.local scripts/setup-admin.mjs",
     "import:sap": "node --env-file-if-exists=.env.local scripts/import-sap-data/index.mjs",
     "build:sap": "node scripts/build-sap-module.mjs",
+    "build:crm": "node scripts/integrate-crm.mjs",
+    "build:s4hana": "node scripts/integrate-s4hana.mjs",
     "build:icons": "node scripts/generate-icons.mjs",
     "test:stack": "playwright test -c playwright.stack.config.ts",
     "test:live": "playwright test -c playwright.live.config.ts",

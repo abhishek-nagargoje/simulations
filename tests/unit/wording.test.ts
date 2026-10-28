@@ -30,6 +30,8 @@ const UI_SOURCES = [
   join(root, 'lib', 'erp', 'guard.ts'),
   join(root, 'modules', 'hr-remedy-hrms', 'index.html'),
   join(root, 'modules', 'sap-erp', 'index.html'),
+  join(root, 'modules', 'zoho-crm', 'index.html'),
+  join(root, 'modules', 'amazon-s4hana', 'index.html'),
 ];
 
 describe('prohibited wording', () => {
@@ -50,5 +52,9 @@ describe('prohibited wording', () => {
     const offered = [...sql.matchAll(/values \('sap-erp', '([^']+)',\s*'([^']+)'/g)].flatMap((m) => [m[1], m[2]]);
     const hrms = /set description = '([^']+)'/.exec(sql)?.[1] ?? '';
     for (const text of [...offered, hrms]) expect(text).not.toMatch(PROHIBITED);
+    const added = readFileSync(join(root, 'supabase', 'migrations', '20261028000100_crm_and_s4hana.sql'), 'utf8');
+    const rows = [...added.matchAll(/\('(?:zoho-crm|amazon-s4hana)', '([^']+)',\s*'([^']+)'/g)].flatMap((m) => [m[1], m[2]]);
+    expect(rows).toHaveLength(4);
+    for (const text of rows) expect(text).not.toMatch(PROHIBITED);
   });
 });

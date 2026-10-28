@@ -10,6 +10,7 @@ names (`classes`, `simulations`) predate the user-facing terms "access" and "app
 | `20261027000100_access_management.sql` | Duration per access (15 min–24 h, CHECK-enforced, cannot be extended); usernames unique among open access; username-only student sign-in `student_login_by_username`; teacher sign-in throttle (`app.auth_attempts`, `auth_check_rate`, `auth_record_attempt`); credentials changeable while draft or active; **SAP ERP** in the catalogue; `student_access_info`; hook `app.after_class_start` |
 | `20261027000200_sap_erp.sql` | Schema `erp` (see below): reference data, workspaces, business tables, document lines, number ranges, metadata, audit; import, export, transactional commit and teacher configuration functions |
 | `20261027000300_neutral_app_names.sql` | Renames the `hr-remedy-hrms` catalogue entry to **HR Management** (slug unchanged) |
+| `20261028000100_crm_and_s4hana.sql` | Enables **Zoho CRM** (`zoho-crm`, previously a disabled placeholder) and adds **Amazon S/4HANA** (`amazon-s4hana`) to the catalogue |
 
 No migration drops or truncates data. `DROP FUNCTION` is used only where a function's signature changes.
 

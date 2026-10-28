@@ -66,7 +66,7 @@ describe('application registry', () => {
     expect(resolveApp('../../etc/passwd')).toBeNull();
     expect(resolveApp('unknown-app')).toBeNull();
     expect(resolveApp('__proto__')).toBeNull();
-    expect(Object.keys(APP_MODULES)).toEqual(['hr-remedy-hrms', 'sap-erp']);
+    expect(Object.keys(APP_MODULES)).toEqual(['hr-remedy-hrms', 'sap-erp', 'zoho-crm', 'amazon-s4hana']);
     expect(resolveApp('sap-erp')?.storage).toBe('database');
   });
 });

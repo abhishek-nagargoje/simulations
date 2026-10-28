@@ -7,6 +7,8 @@ import { renderApp, resolveApp, APP_MODULES } from '@/lib/apps/registry';
 const read = (p: string) => readFileSync(join(process.cwd(), p), 'utf8');
 const hrms = read('modules/hr-remedy-hrms/index.html');
 const sap = read('modules/sap-erp/index.html');
+const crm = read('modules/zoho-crm/index.html');
+const s4 = read('modules/amazon-s4hana/index.html');
 const ID = '7b0c1c1e-1d2f-4a3b-9c4d-5e6f7a8b9c0d';
 
 describe('HR Management module', () => {
@@ -59,11 +61,45 @@ describe('SAP ERP module', () => {
   });
 });
 
+describe('Zoho CRM module', () => {
+  it('has no embedded sign-in or hard-coded credentials', () => {
+    expect(crm).not.toMatch(/id="login-|type="password"|login-form|AUTH\./);
+    expect(crm).not.toMatch(/hrremedy|Ryf645/i);
+  });
+  it('keeps its product branding and opens directly', () => {
+    expect(crm).toContain('<title>Zoho CRM</title>');
+    expect(crm).toContain('const LOGO_SVG = `<svg viewBox="0 0 40 40"');
+    expect(crm).toContain('<div id="app" class="app">');
+    expect(crm).toContain("  AUTHED = true;\n  go('home');\n");
+  });
+  it('exits via the platform host', () => {
+    expect(crm).toContain("parent.postMessage({ type: 'access:exit' }, location.origin)");
+  });
+});
+
+describe('Amazon S/4HANA module', () => {
+  it('namespaces browser storage per access session', () => {
+    expect(s4).toContain("const NS = 's4:' + (window.__CLASSROOM__ || 'standalone') + ':';");
+    expect(s4).toContain('localStorage.getItem(NS + k)');
+    expect(s4).toContain('localStorage.setItem(NS + k,');
+  });
+  it('ships its data set compressed and stays below the response size limit', () => {
+    expect(s4).not.toContain('const RAW = ');
+    expect(s4).toContain('<script type="application/octet-stream" id="s4-data">');
+    expect(s4).toContain('<script type="text/plain" id="s4-app">');
+    expect(s4.length).toBeLessThan(4_000_000);
+  });
+  it('keeps its branding without the former notices', () => {
+    expect(s4).toContain('<title>Amazon S/4HANA</title>');
+    expect(s4).toContain('<b>amazon</b><span>OSCM</span>');
+    expect(s4).not.toMatch(/lg-note">|Not affiliated/);
+  });
+});
+
 describe('module bootstrap', () => {
-  it('registers HR Management first and SAP ERP second, both installed', () => {
-    expect(Object.keys(APP_MODULES)).toEqual(['hr-remedy-hrms', 'sap-erp']);
-    expect(resolveApp('hr-remedy-hrms')?.entry).toBe('hr-remedy-hrms/index.html');
-    expect(resolveApp('sap-erp')?.entry).toBe('sap-erp/index.html');
+  it('registers the four applications in catalogue order, all installed', () => {
+    expect(Object.keys(APP_MODULES)).toEqual(['hr-remedy-hrms', 'sap-erp', 'zoho-crm', 'amazon-s4hana']);
+    for (const slug of Object.keys(APP_MODULES)) expect(resolveApp(slug)?.entry).toBe(`${slug}/index.html`);
   });
   it('injects the session-derived access id and API path into <head>', () => {
     const out = renderApp(resolveApp('sap-erp')!, ID);

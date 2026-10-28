@@ -9,17 +9,16 @@ those credentials and the application opens directly.
 | --- | --- |
 | **HR Management** (slug `hr-remedy-hrms`) | In each student's browser, per access session (unchanged single-file module) |
 | **SAP ERP** | In PostgreSQL (Supabase): one workspace per access session, created from the imported workbook data |
+| **Zoho CRM** (slug `zoho-crm`) | In memory in the student's browser; resets when the page is reloaded (as supplied) |
+| **Amazon S/4HANA** (slug `amazon-s4hana`) | Built-in data set plus the student's postings in the browser, per access session |
 
-Zoho CRM is listed in the database catalogue but has no implementation, so it is
-disabled and not offered. The user interface carries no company branding:
-applications are shown by product name with neutral icons (`components/app-icon.tsx`);
-approved vendor logo assets can be added there once their use is authorized.
+Launcher icons come from each application's own branding (`components/app-icon.tsx`).
 
 | Doc | Contents |
 | --- | --- |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Supabase and Vercel setup, teacher account, data import, smoke tests |
 | [docs/DATABASE.md](docs/DATABASE.md) | Schemas, tables, constraints, functions, grants, migrations |
-| [docs/MODULES.md](docs/MODULES.md) | How HR Management and SAP ERP are integrated; the SAP ERP data layer |
+| [docs/MODULES.md](docs/MODULES.md) | How the applications are integrated; the SAP ERP data layer |
 | [docs/SAP-DATA-IMPORT.md](docs/SAP-DATA-IMPORT.md) | Workbook → database mapping, validation, normalization, re-running |
 | [docs/GUIDES.md](docs/GUIDES.md) | Teacher and student workflows |
 | [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Teacher-login error, hydration warning, favicon: causes and fixes |
@@ -119,7 +118,7 @@ missing variable).
 | `E2E_DEV_URL=http://localhost:3000 npx playwright test hydration --project desktop` | Hydration check against a dev server |
 | `npm run setup:admin [-- --reset-password]` | Create/verify the teacher account, replace its password, grant the role |
 | `npm run import:sap -- <workbook.xlsx> [--apply]` | Validate / import the SAP ERP workbook |
-| `npm run build:sap` · `npm run build:icons` | Rebuild the SAP ERP module · regenerate the favicon set |
+| `npm run build:sap` · `npm run build:crm` · `npm run build:s4hana` · `npm run build:icons` | Rebuild the SAP ERP, Zoho CRM or Amazon S/4HANA module · regenerate the favicon set |
 
 ## Environment variables
 

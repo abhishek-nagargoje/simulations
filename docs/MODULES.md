@@ -5,7 +5,7 @@
 | Catalogue | `app.simulations` (DB, internal name) | slug, name, description, category, enabled, display order |
 | Registry | `lib/apps/registry.ts` | slug → entry file, storage type |
 | Module | `modules/<slug>/index.html` | Built single-file application. **Never** under `/public` |
-| Sources | `modules/sap-erp/source/` | Supplied originals (`SAP.html`, workbook), unchanged |
+| Sources | `modules/<slug>/source/` | Supplied originals (`SAP.html` and workbook, `zoho-crm.html`, `Amazon_S4HANA.html`), unchanged |
 
 The content route injects `window.__ACCESS__ = { id, app, api }` (and
 `window.__CLASSROOM__` for HRMS storage) from the **validated session**, so a
@@ -25,6 +25,30 @@ session (`hrms_v1:<access id>`, current + two most recent kept), standard
 downloads, Exit hands control to the platform, third-party names removed,
 neutral wording ("Reload standard employee data" etc.). Business data stays in
 the student's browser — unchanged behaviour, documented limitation.
+
+## Zoho CRM (slug `zoho-crm`)
+
+Built by `scripts/integrate-crm.mjs` (`npm run build:crm`) from
+`modules/zoho-crm/source/zoho-crm.html`: embedded sign-in and its hard-coded
+credentials removed (the CRM opens directly after the platform sign-in), Sign Out
+posts `access:exit` to the host, original product mark kept, neutral wording
+(features that are not connected say "… for your organization"; "Clone" is
+"Duplicate"). Records live in memory and reset on reload, as supplied.
+
+## Amazon S/4HANA (slug `amazon-s4hana`)
+
+Built by `scripts/integrate-s4hana.mjs` (`npm run build:s4hana`) from
+`modules/amazon-s4hana/source/Amazon_S4HANA.html`:
+
+* **Size:** the 8 MB embedded data set is stored gzip-compressed (base64) and
+  unpacked with `DecompressionStream` before the application script starts;
+  the module is about 1.9 MB, below the 4.5 MB function response limit.
+* **Storage:** postings, user and preferences stay in the browser, namespaced
+  `s4:<access id>:` (current + two most recently used sessions kept).
+* **Logon:** the S/4HANA logon (user ID and name, no password) is kept; it only
+  attributes postings to a user. The platform sign-in is the access gate.
+* **Wording:** no training/simulation/practice terms; "Simulate" is "Preview";
+  former disclaimers removed, the SAP trademark notice kept.
 
 ## SAP ERP
 
